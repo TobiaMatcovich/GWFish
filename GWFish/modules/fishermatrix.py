@@ -311,6 +311,8 @@ def compute_network_errors(
     save_matrices_path: Union[Path, str] = Path('.'),
     matrix_naming_postfix: str = '',
 ) -> tuple[np.ndarray, np.ndarray, Optional[np.ndarray]]:
+
+    
     """
     Compute Fisher matrix errors for a network whose
     SNR and Fisher matrices have already been calculated.
@@ -345,7 +347,7 @@ def compute_network_errors(
     assert n_params > 0
     assert n_signals > 0
     
-    if isinstance(save_matrices_path, str):
+    if isinstance(save_matrices_path, str):   # check if is an istance of str class (string)
         save_matrices_path = Path(save_matrices_path)
     
     if save_matrices:
@@ -354,6 +356,7 @@ def compute_network_errors(
         inv_fisher_matrices = np.zeros((n_signals, n_params, n_params))
 
     signals_havesky = False
+    
     if ("ra" in fisher_parameters) and ("dec" in fisher_parameters):
         signals_havesky = True
         i_ra = fisher_parameters.index("ra")
