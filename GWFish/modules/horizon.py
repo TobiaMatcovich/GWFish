@@ -31,7 +31,7 @@ def compute_SNR(
     params: "Union[dict[str, float], pd.DataFrame]", 
     detector: Detector, 
     waveform_model: str = DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(Waveform) = LALFD_Waveform,
+    waveform_class: type[Waveform] = LALFD_Waveform,
     redefine_tf_vectors: bool = False) -> float:
     """Compute the SNR for a single signal, and a single detector.
     
@@ -67,7 +67,7 @@ def compute_SNR_network(
     params: "Union[dict[str, float], pd.DataFrame]", 
     network: Network, 
     waveform_model: str = DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(Waveform) = LALFD_Waveform,
+    waveform_class: type[Waveform] = LALFD_Waveform,
     redefine_tf_vectors: bool = False
     ) -> float:
     
@@ -83,7 +83,7 @@ def horizon(
     detector: Union[Detector, Network],
     target_SNR: float = 9., 
     waveform_model: str = DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(Waveform) = LALFD_Waveform,
+    waveform_class: type[Waveform] = LALFD_Waveform,
     cosmology_model: cosmology.Cosmology = Planck18,
     source_frame_masses: bool = True,
     redefine_tf_vectors: bool = False,
@@ -172,7 +172,7 @@ def find_optimal_location(
     base_params: dict, 
     detector: Union[Detector, Network], 
     waveform_model: str = DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(Waveform) = LALFD_Waveform,
+    waveform_class: type[Waveform] = LALFD_Waveform,
     redefine_tf_vectors: bool = False,
     **minimizer_kwargs,
     ):
