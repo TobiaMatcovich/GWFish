@@ -60,8 +60,6 @@ def uniform_priors(samples):
 	return np.logical_and(mask1, mask2)
 
 
-
-
 def uniform_priors_spins(samples):
 	mask1 = uniform_priors(samples)
 	mask2 = spin_magnitude_prior(samples)
