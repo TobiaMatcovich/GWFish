@@ -68,7 +68,14 @@ def uniform_priors_spins(samples):
 
 	return np.logical_and(mask1, mask2)
 
+def lambda1_prior(samples, min_value = 0., max_value = 10):
+	lower = samples['lambda_1'] > min_value
+	upper = samples['lambda_1'] < max_value
+	return np.logical_and(lower, upper)
 
-
+def lambda2_prior(samples, min_value = 0., max_value = 3000):
+	lower = samples['lambda_2'] > min_value
+	upper = samples['lambda_2'] < max_value
+	return np.logical_and(lower, upper)
 
 
