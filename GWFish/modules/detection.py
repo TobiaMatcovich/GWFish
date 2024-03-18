@@ -227,7 +227,7 @@ class Network:
         
         new_network.name =  self.detectors[0]
         for id in sub_network_ids[1:]:
-            new_network.name.name += '_' + id
+            new_network.name += '_' + id
 
         return new_network
 
