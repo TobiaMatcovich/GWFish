@@ -225,6 +225,10 @@ class Network:
             self.detectors[i] for i in sub_network_ids
         ]
         
+        new_network.name =  self.detectors[0]
+        for id in sub_network_ids[1:]:
+            new_network.name.name += '_' + id
+
         return new_network
 
 def GreenwichMeanSiderealTime(gps):
