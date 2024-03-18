@@ -217,17 +217,18 @@ class Network:
             for identifier in detector_ids
         ]
 
-    def partial(self, sub_network_ids: list[int]):
+    def partial(network: gw.detection.Network, sub_network_ids: list[int]):
         
-        new_network = copy.deepcopy(self)
+        new_network = copy.deepcopy(network)
         
         new_network.detectors = [
-            self.detectors[i] for i in sub_network_ids
+            network.detectors[i] for i in sub_network_ids
         ]
-        
-        new_network.name =  self.detectors[0]
-        for id in sub_network_ids[1:]:
-            new_network.name += '_' + id
+    
+        new_network.name=new_network.detectors[0].name
+    
+        for id in new_network.detectors[1:]:
+            new_network.name += '_' + id.name
 
         return new_network
 
