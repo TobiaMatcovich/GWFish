@@ -491,13 +491,13 @@ def analyze_and_save_to_txt(
         partial_network = network.partial(sub_network_ids)
 
         filename = errors_file_name(
-            network=network,
+            network=partial_network,         # I modified this and the following lines with partial instead of network 
             sub_network_ids=sub_network_ids,
             population_name=population_name,
         )
         
         detected, network_snr, errors, sky_localization = compute_network_errors(
-            network=network,
+            network=partial_network,
             parameter_values=parameter_values,
             fisher_parameters=fisher_parameters,
             save_matrices=save_matrices,
