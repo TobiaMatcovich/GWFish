@@ -234,7 +234,7 @@ def compute_detector_fisher(
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
     waveform_model: str = wf.DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(wf.Waveform) = wf.LALFD_Waveform,
+    waveform_class: type(wf.Waveform) = wf.LALFD_Waveform, # before it was: type(wf.Waveform), why? it is different?
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
@@ -491,13 +491,13 @@ def analyze_and_save_to_txt(
         partial_network = network.partial(sub_network_ids)
 
         filename = errors_file_name(
-            network=partial_network,         # I modified this and the following lines with partial instead of network 
+            network=network,  
             sub_network_ids=sub_network_ids,
             population_name=population_name,
         )
         
         detected, network_snr, errors, sky_localization = compute_network_errors(
-            network=partial_network,
+            network=partial_network, # I modified this lines with partial instead of network 
             parameter_values=parameter_values,
             fisher_parameters=fisher_parameters,
             save_matrices=save_matrices,
