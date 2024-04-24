@@ -76,7 +76,7 @@ def lambda2_prior(samples, min_value = 0., max_value = 3000):
 	upper = samples['lambda_2'] < max_value
 	return np.logical_and(lower, upper)
 
-def mass_prior(samples, min_BH_value = 3.1, max_BH_value=55.0,min_NS_value = 1.1,max_NS_value=2.9):
+def mass_prior2(samples, min_BH_value = 3.1, max_BH_value=55.0,min_NS_value = 1.1,max_NS_value=2.9):
     lower_m1 = samples['mass_1'] > min_BH_value
     upper_m1 = samples['mass_1'] < max_BH_value
     mask_m1  = np.logical_and(lower_m1, upper_m1)
