@@ -234,7 +234,7 @@ def compute_detector_fisher(
     signal_parameter_values: Union[pd.DataFrame, dict[str, float]],
     fisher_parameters: Optional[list[str]] = None,
     waveform_model: str = wf.DEFAULT_WAVEFORM_MODEL,
-    waveform_class: type(wf.Waveform) = wf.LALFD_Waveform, # before it was: type(wf.Waveform), why? it is different?
+    waveform_class: type[wf.Waveform] = wf.LALFD_Waveform, # before it was: type(wf.Waveform), why? it is different?
     use_duty_cycle: bool = False,
     redefine_tf_vectors: bool = False,
 ) -> tuple[np.ndarray, float]:
@@ -379,7 +379,7 @@ def compute_network_errors(
         for detector in network.detectors:
             
             detector_fisher, detector_snr_square = compute_detector_fisher(detector, signal_parameter_values, fisher_parameters, waveform_model, waveform_class, use_duty_cycle)
-            
+
             network_snr_square += detector_snr_square
         
             if np.sqrt(detector_snr_square) > detector_snr_thr:
