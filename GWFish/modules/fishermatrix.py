@@ -370,39 +370,42 @@ def compute_network_errors(
     network_snr = np.zeros((n_signals,))
 
     for k in tqdm(range(n_signals)):
-        network_fisher_matrix = np.zeros((n_params, n_params))
-
-        network_snr_square = 0.
         
-        signal_parameter_values = parameter_values.iloc[k]
-
-        for detector in network.detectors:
+        try:   # this line is a test
             
-            try:    # this line is a test
+            network_fisher_matrix = np.zeros((n_params, n_params))
+
+            network_snr_square = 0.
+            
+            signal_parameter_values = parameter_values.iloc[k]
+
+            for detector in network.detectors:
+                
+                
                 detector_fisher, detector_snr_square = compute_detector_fisher(detector, signal_parameter_values, fisher_parameters, waveform_model, waveform_class, use_duty_cycle)
                 network_snr_square += detector_snr_square
-        
-                if np.sqrt(detector_snr_square) > detector_snr_thr:        # this line is a test
-                    network_fisher_matrix += detector_fisher               # this line is a test
             
-            except Exception as e:                                         # this line is a test
-                print("Error on <compute_detector_fisher function>")       # this line is a test
-                continue                                                   # this line is a test
+                if np.sqrt(detector_snr_square) > detector_snr_thr:        
+                    network_fisher_matrix += detector_fisher               
+                                                              
+            network_fisher_inverse, _ = invertSVD(network_fisher_matrix)
+            
+            if save_matrices:
+                fisher_matrices[k, :, :] = network_fisher_matrix
+                inv_fisher_matrices[k, :, :] = network_fisher_inverse
+            
+            parameter_errors[k, :] = np.sqrt(np.diagonal(network_fisher_inverse))
 
-        network_fisher_inverse, _ = invertSVD(network_fisher_matrix)
-        
-        if save_matrices:
-            fisher_matrices[k, :, :] = network_fisher_matrix
-            inv_fisher_matrices[k, :, :] = network_fisher_inverse
-        
-        parameter_errors[k, :] = np.sqrt(np.diagonal(network_fisher_inverse))
+            network_snr[k] = np.sqrt(network_snr_square)
 
-        network_snr[k] = np.sqrt(network_snr_square)
+            if signals_havesky:
+                sky_localization[k] = sky_localization_area(
+                    network_fisher_inverse, parameter_values["dec"].iloc[k], i_ra, i_dec
+                )
+        except Exception as e:                                         # this line is a test
+            print("Error on <compute_detector_fisher function>")       # this line is a test
+            continue                                                   # this line is a test
 
-        if signals_havesky:
-            sky_localization[k] = sky_localization_area(
-                network_fisher_inverse, parameter_values["dec"].iloc[k], i_ra, i_dec
-            )
 
     detected, = np.where(network_snr > network_snr_thr)
 

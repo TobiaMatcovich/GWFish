@@ -121,7 +121,7 @@ class Waveform:
             self.frequencyvector = None
 
         if 'delta_t' in data_params:
-            self.delta_t = data_params['delta_t']   # prima era self.delta_t = delta_t 
+            self.delta_t = data_params['delta_t']   # prima era <self.delta_t = delta_t> errore?
         else:
             # Set sampling frequency to Nyquist frequency
             self.delta_t = 0.5/self.f_max
