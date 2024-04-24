@@ -378,12 +378,16 @@ def compute_network_errors(
 
         for detector in network.detectors:
             
-            detector_fisher, detector_snr_square = compute_detector_fisher(detector, signal_parameter_values, fisher_parameters, waveform_model, waveform_class, use_duty_cycle)
-
-            network_snr_square += detector_snr_square
+            try:    # this line is a test
+                detector_fisher, detector_snr_square = compute_detector_fisher(detector, signal_parameter_values, fisher_parameters, waveform_model, waveform_class, use_duty_cycle)
+                network_snr_square += detector_snr_square
         
-            if np.sqrt(detector_snr_square) > detector_snr_thr:
-                network_fisher_matrix += detector_fisher
+                if np.sqrt(detector_snr_square) > detector_snr_thr:        # this line is a test
+                    network_fisher_matrix += detector_fisher               # this line is a test
+            
+            except Exception as e:                                         # this line is a test
+                print("Error on <compute_detector_fisher function>")       # this line is a test
+                continue                                                   # this line is a test
 
         network_fisher_inverse, _ = invertSVD(network_fisher_matrix)
         
