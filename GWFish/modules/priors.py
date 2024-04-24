@@ -5,6 +5,17 @@ import numpy as np
 #	mask_m2 = samples['mass_2'] > min_value
 #	return np.logical_and(mask_m1, mask_m2)
 
+def mass_prior2(samples, min_BH_value = 3.1, max_BH_value=55.0,min_NS_value = 1.1,max_NS_value=2.9):
+    lower_m1 = samples['mass_1'] > min_BH_value
+    upper_m1 = samples['mass_1'] < max_BH_value
+    mask_m1  = np.logical_and(lower_m1, upper_m1)
+    
+    lower_m2 = samples['mass_2'] > min_NS_value
+    upper_m2 = samples['mass_2'] < max_NS_value
+    mask_m2  = np.logical_and(lower_m2, upper_m2)
+    
+    return np.logical_and(mask_m1, mask_m2)
+
 def distance_prior(samples, min_value = 0.):
 	return samples['luminosity_distance'] > min_value
 
@@ -45,7 +56,7 @@ def spin_magnitude_prior(samples, min_value = -1., max_value = 1.):
 
 
 def uniform_priors(samples):
-	filter_mass = mass_prior(samples)
+	filter_mass = mass_prior2(samples)
 	filter_dist = distance_prior(samples)
 	filter_ra = ra_prior(samples)
 	filter_dec = dec_prior_uniform(samples)
@@ -76,13 +87,4 @@ def lambda2_prior(samples, min_value = 0., max_value = 3000):
 	upper = samples['lambda_2'] < max_value
 	return np.logical_and(lower, upper)
 
-def mass_prior2(samples, min_BH_value = 3.1, max_BH_value=55.0,min_NS_value = 1.1,max_NS_value=2.9):
-    lower_m1 = samples['mass_1'] > min_BH_value
-    upper_m1 = samples['mass_1'] < max_BH_value
-    mask_m1  = np.logical_and(lower_m1, upper_m1)
-    
-    lower_m2 = samples['mass_2'] > min_NS_value
-    upper_m2 = samples['mass_2'] < max_NS_value
-    mask_m2  = np.logical_and(lower_m2, upper_m2)
-    
-    return np.logical_and(mask_m1, mask_m2)
+
