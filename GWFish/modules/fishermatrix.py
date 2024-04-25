@@ -337,7 +337,8 @@ def compute_network_errors(
     - `parameter_errors`: array with shape `(n_signals, n_parameters)` - One-sigma     Fisher errors for the parameters.
     - `sky_localization`: array with shape `(n_signals,)` or `None` - One-sigma sky localization area in steradians, returned if the signals have both right ascension and declination, or `None` otherwise.
     """
-
+    print(network.name) # this line is a test
+    
     if fisher_parameters is None:
         fisher_parameters = list(parameter_values.keys())
 
@@ -368,8 +369,12 @@ def compute_network_errors(
     if signals_havesky:
         sky_localization = np.zeros((n_signals,))
     network_snr = np.zeros((n_signals,))
+    
+    
 
     for k in tqdm(range(n_signals)):
+        
+        print(f"{k}/{n_signals}") # this line is a test
         
         try:   # this line is a test
             
@@ -381,6 +386,7 @@ def compute_network_errors(
 
             for detector in network.detectors:
                 
+                print(detector.name) # this line is a test
                 
                 detector_fisher, detector_snr_square = compute_detector_fisher(detector, signal_parameter_values, fisher_parameters, waveform_model, waveform_class, use_duty_cycle)
                 network_snr_square += detector_snr_square
